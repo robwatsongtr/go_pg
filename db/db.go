@@ -26,9 +26,11 @@ func Init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	err = DB.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	log.Println("Sucessfully connected to database on port", port)
 }
