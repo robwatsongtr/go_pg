@@ -10,10 +10,16 @@ import (
 )
 
 func main() {
-	db.Init()
-	defer db.DB.Close()
+	// get the db connection
+	dbConn, err := db.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
+	// final cleanup
+	defer dbConn.Close()
 
-	http.HandleFunc("/clients", utils.DisplayLog(handlers.GetClientsHandler))
+	// pass the db connection to the handler which is wrapped by a logger
+	http.HandleFunc("/clients", utils.DisplayLog(handlers.GetClientsHandler(dbConn)))
 
 	log.Println("Server Starting on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {

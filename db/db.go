@@ -8,10 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var DB *sql.DB
-
-func Init() {
-	var err error
+func Init() (*sql.DB, error) {
 	host := "localhost"
 	port := 5433
 	user := "postgres"
@@ -22,15 +19,17 @@ func Init() {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
 		host, port, user, password, dbname, sslmode)
 
-	DB, err = sql.Open("postgres", connStr)
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	err = DB.Ping()
+	err = db.Ping()
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	log.Println("Sucessfully connected to database on port", port)
+	log.Println("Successfully connected to database on port", port)
+
+	return db, nil
 }
