@@ -28,18 +28,35 @@ func GetAllClientsHandler(db *sql.DB) http.HandlerFunc {
 func CreateClientHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// decode incoming JSON request body into a Client struct
-		var incomingClient models.Client
-		if err := json.NewDecoder(r.Body).Decode(&incomingClient); err != nil {
+		var newClient models.Client
+		if err := json.NewDecoder(r.Body).Decode(&newClient); err != nil {
 			utils.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 			return
 		}
 		defer r.Body.Close()
 
 		// insert Client struct into database
-		if err := models.CreateClient(db, &incomingClient); err != nil {
+		if err := models.CreateClient(db, &newClient); err != nil {
 			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		}
 		acknowledgement := map[string]string{"message": "Client Created Successfully"}
+		utils.RespondWithJSON(w, http.StatusOK, acknowledgement)
+	}
+}
+
+func UpdateClientHandler(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var updatedClient models.Client
+		if err := json.NewDecoder(r.Body).Decode(&updatedClient); err != nil {
+			utils.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+			return
+		}
+		defer r.Body.Close()
+
+		if err := models.UpdateClient(db, &updatedClient); err != nil {
+			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+		acknowledgement := map[string]string{"message": "Client Updated Successfully"}
 		utils.RespondWithJSON(w, http.StatusOK, acknowledgement)
 	}
 }

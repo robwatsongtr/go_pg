@@ -17,7 +17,7 @@ func main() {
 	// final cleanup
 	defer db.Close()
 
-	// router takes care of different HTTP methods and logging. pass db conn to it.
+	// router takes care of different HTTP methods and logging. pass db connection to it.
 	router.SetupRoutes(db)
 
 	log.Println("Server Starting on :8080")
