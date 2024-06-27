@@ -5,21 +5,20 @@ import (
 	"net/http"
 
 	"github.com/robwatsongtr/go_pg.git/db"
-	"github.com/robwatsongtr/go_pg.git/handlers"
-	"github.com/robwatsongtr/go_pg.git/utils"
+	"github.com/robwatsongtr/go_pg.git/router"
 )
 
 func main() {
 	// get the db connection
-	dbConn, err := db.Init()
+	db, err := db.InitDb()
 	if err != nil {
 		log.Fatal(err)
 	}
 	// final cleanup
-	defer dbConn.Close()
+	defer db.Close()
 
-	// pass the db connection to the handler which is wrapped by a logger
-	http.HandleFunc("/clients", utils.DisplayLog(handlers.GetAllClientsHandler(dbConn)))
+	// router takes care of different HTTP methods and logging. pass db conn to it.
+	router.SetupRoutes(db)
 
 	log.Println("Server Starting on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {

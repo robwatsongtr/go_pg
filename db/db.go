@@ -8,7 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Init() (*sql.DB, error) {
+func InitDb() (*sql.DB, error) {
 	host := "localhost"
 	port := 5433
 	user := "postgres"

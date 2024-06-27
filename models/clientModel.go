@@ -44,6 +44,7 @@ func CreateClient(db *sql.DB, client *Client) error {
 	return err
 }
 
+// todo: implement handler for this
 func UpdateClient(db *sql.DB, client *Client) error {
 	query := "UPDATE clients SET name=$1, child_name=$2, email=$3, billing_amt=$4 WHERE client_id=$5"
 	_, err := db.Exec(query, client.Name, client.Child_name, client.Email,
