@@ -38,8 +38,8 @@ func GetClients(db *sql.DB) ([]Client, error) {
 func CreateClient(db *sql.DB, client *Client) error {
 	query := `INSERT INTO clients (name, child_name, email, billing_amt) VALUES ($1, $2, $3, $4) 
 		RETURNING client_id`
-	err := db.QueryRow(query, client.Name, client.Child_name,
-		client.Email, client.Billing_amt).Scan(&client.Client_id)
+	err := db.QueryRow(query, client.Name, client.Child_name, client.Email,
+		client.Billing_amt).Scan(&client.Client_id)
 
 	return err
 }

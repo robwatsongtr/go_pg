@@ -19,7 +19,7 @@ func main() {
 	defer dbConn.Close()
 
 	// pass the db connection to the handler which is wrapped by a logger
-	http.HandleFunc("/clients", utils.DisplayLog(handlers.GetClientsHandler(dbConn)))
+	http.HandleFunc("/clients", utils.DisplayLog(handlers.GetAllClientsHandler(dbConn)))
 
 	log.Println("Server Starting on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
