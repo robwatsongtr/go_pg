@@ -21,6 +21,8 @@ func clientsRouter(db *sql.DB) http.HandlerFunc {
 			utils.DisplayLog(handlers.CreateClientHandler(db))(w, r)
 		case http.MethodPut:
 			utils.DisplayLog(handlers.UpdateClientHandler(db))(w, r)
+		case http.MethodDelete:
+			utils.DisplayLog(handlers.DeleteClientHandler(db))(w, r)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
