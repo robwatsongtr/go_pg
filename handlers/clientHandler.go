@@ -67,7 +67,7 @@ func UpdateClientHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
-// takes the database id from the UR:
+// takes the database id from the URL
 func DeleteClientHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// extract client_id from URL path and convert it to an integer

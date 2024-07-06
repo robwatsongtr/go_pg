@@ -10,6 +10,7 @@ import (
 
 func SetupRoutes(db *sql.DB) {
 	http.HandleFunc("/clients", clientsRouter(db))
+	http.HandleFunc("/clients/", clientIDRouter(db))
 }
 
 func clientsRouter(db *sql.DB) http.HandlerFunc {
@@ -21,6 +22,15 @@ func clientsRouter(db *sql.DB) http.HandlerFunc {
 			utils.DisplayLog(handlers.CreateClientHandler(db))(w, r)
 		case http.MethodPut:
 			utils.DisplayLog(handlers.UpdateClientHandler(db))(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	}
+}
+
+func clientIDRouter(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
 		case http.MethodDelete:
 			utils.DisplayLog(handlers.DeleteClientHandler(db))(w, r)
 		default:
