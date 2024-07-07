@@ -12,8 +12,8 @@ import (
 )
 
 /*
-Takes in a database connection and returns the handler
-both http.ResponseWriter and *http.Request are required for HTTP handlers
+Takes in a database connection and returns the handler. Functional, higher order handling.
+Both http.ResponseWriter and *http.Request are required for HTTP handlers
 even through the request is not being used. like req res in express I suppose.
 */
 
